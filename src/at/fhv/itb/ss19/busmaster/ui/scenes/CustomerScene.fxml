@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <SplitPane dividerPositions="0.7987" orientation="VERTICAL" prefHeight="344.0" prefWidth="220.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <SplitPane dividerPositions="0.1222" orientation="VERTICAL" pickOnBounds="false" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <items>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
+                                       <children>
+                                          <Label style="-fx-background-color: #a5bfcc;" text="Kunden" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Label layoutX="14.0" layoutY="29.0" text="Suche" />
+                                          <TextField layoutX="87.0" layoutY="25.0" prefHeight="25.0" prefWidth="207.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="72.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="25.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <ListView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefHeight="1000.0" prefWidth="2000.0" text="Kunde anlegen" />
+                                    <Button mnemonicParsing="false" prefHeight="1000.0" prefWidth="2000.0" text="Kunde bearbeiten" />
+                                    <Button mnemonicParsing="false" prefHeight="1000.0" prefWidth="2000.0" text="Kunde löschen" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <SplitPane dividerPositions="0.0983" layoutY="109.0" orientation="VERTICAL" pickOnBounds="false" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <items>
+                        <AnchorPane maxHeight="60.0" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="8.0" maxHeight="10.0" prefHeight="10.0" text="Erstellen / Bearbeiten" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <Label layoutX="50.0" layoutY="63.0" prefHeight="17.0" prefWidth="108.0" text="Vorname" />
+                              <Label layoutX="50.0" layoutY="113.0" prefHeight="17.0" prefWidth="98.0" text="Nachname" />
+                              <Label layoutX="50.0" layoutY="183.0" text="E-Mail" />
+                              <TextField layoutX="150.0" layoutY="59.0" />
+                              <TextField layoutX="150.0" layoutY="109.0" />
+                              <TextField layoutX="150.0" layoutY="179.0" />
+                              <Label layoutX="50.0" layoutY="228.0" text="Telefonnummer" />
+                              <TextField layoutX="150.0" layoutY="224.0" />
+                              <Label layoutX="50.0" layoutY="268.0" text="Anschrift" />
+                              <TextField layoutX="150.0" layoutY="264.0" />
+                              <Label layoutX="50.0" layoutY="356.0" text="Anschrift" />
+                              <TextField layoutX="150.0" layoutY="352.0" />
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

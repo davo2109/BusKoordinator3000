@@ -1,0 +1,20 @@
+.assignButton {
+	-fx-graphic: url("document_edit.png");
+}
+
+.saveButton {
+	-fx-graphic: url("document_ok.png");
+}
+
+.cancelButton {
+	-fx-graphic: url("document_error.png");
+}
+
+.redButton {
+	-fx-background-color: red;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}
+
+.arrowbutton {
+}

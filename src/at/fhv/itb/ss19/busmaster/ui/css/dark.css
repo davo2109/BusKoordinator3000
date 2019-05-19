@@ -1,0 +1,306 @@
+.root {
+    -fx-background-color: #1F1F1F;
+    -fx-text-fill: lightgrey;
+    -fx-border-color: transparent;
+    -fx-box-border: transparent;
+    -fx-padding: 0;
+}
+
+.button {
+    -fx-background-color: #101010;
+    -fx-text-fill: lightgrey;
+    -fx-border-color: lightgrey;
+}
+
+
+.label {
+    -fx-text-fill: lightgrey;
+}
+
+/* Tables */
+
+/* Hide Scrollbar */
+.table-view *.increment-button,
+.table-view *.decrement-button,
+.table-view *.increment-arrow,
+.table-view *.decrement-arrow
+{
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+.table-view {
+    -fx-text-fill: lightgrey;
+    -fx-background-color: #1F1F1F;
+    -fx-border-width: 0;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: #1F1F1F;
+    -fx-padding: 0;
+    -fx-border-insets: 0.0 1.0 1.0 0.0, 0.0 0.0 0.0 0.0;
+}
+
+.table-view .column-header-background .label {
+    -fx-background-color: transparent;
+    -fx-text-fill: lightgrey;
+}
+
+.table-view .column-header {
+    -fx-background-color: #101010;
+    -fx-border-color: lightgrey;
+    -fx-border-width: 2px;
+    -fx-pref-tile-height: 100px;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: lightgrey;
+    -fx-border-color: lightgrey;
+    -fx-border-width: 1px;
+    -fx-pref-height: 25px;
+}
+
+.table-row-cell {
+    -fx-background-color: -fx-table-cell-border-color, #1F1F1F;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: -fx-table-cell-border-color, #1F1F1F;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: lightgrey;
+    -fx-text-fill: #1F1F1F;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}
+
+.table-row-cell:selected .table-cell {
+   -fx-text-fill: #1F1F1F;
+    -fx-border-color: #1F1F1F;
+}
+
+.tab-pane {
+    -fx-tab-min-height: 3em;
+    /* 24 */
+
+    -fx-tab-max-height: 3em;
+    /* 24 */
+}
+.tab .tab-label {
+    -fx-background-color: transparent;
+    -fx-alignment: CENTER;
+    -fx-text-fill: lightgrey;
+}
+.tab {
+    -fx-background-insets: 0.0;
+    -fx-background-radius: 0.0;
+    -fx-background-color: #1F1F1F;
+    -fx-border-color: lightgrey;
+}
+
+.tab:selected{
+    -fx-background-color: lightgrey;
+    -fx-text-fill: #1F1F1F;
+}
+
+.tab:selected .tab-label{
+    -fx-text-fill: #1F1F1F;
+}
+
+.tab:focused {
+    -fx-focus-color: transparent;
+}
+.tab {
+    -fx-padding: 0 30 0 30;
+}
+.tab-pane *.tab-header-background {
+    -fx-background-color: #101010;
+}
+.tab-pane:top *.tab-header-area {
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em 0.166667em 0.0em 0.0em;
+}
+.tab:selected .focus-indicator {
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.text-field {
+    -fx-text-fill: lightgrey;
+    -fx-background-color: grey;
+}
+
+.choice-box {
+    -fx-background-color: #101010;
+    -fx-border-color: lightgrey;
+
+}
+
+.choice-box .arrow {
+    -fx-text-fill: lightgrey;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: #1F1F1F;
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: lightgrey;
+}
+
+.choice-box .menu-item > .label {
+    -fx-text-fill: lightgrey;
+}
+
+.choice-box .menu-item:focused > .label {
+    -fx-text-fill: #1F1F1F;
+}
+
+.check-box {
+    -fx-background-color: #1F1F1F;
+    -fx-text-fill: lightgrey;
+}
+
+.check-box .box {
+
+    -fx-background-color: #1F1F1F;
+    -fx-border-color: lightgrey;
+    -fx-border-radius: 3px;
+
+}
+
+.check-box:selected .mark {
+
+    -fx-background-color: lightgrey;
+
+}
+
+.date-picker .combo-box {
+    -fx-background-insets: 0px;
+    -fx-border-width: 0px;
+}
+
+.date-picker .text-field {
+    -fx-background-radius: 0px;
+    -fx-border-color: transparent;
+}
+
+.date-picker .arrow-button {
+    -fx-background-radius: 0px;
+    -fx-background-color: #232323;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-radius: 0px;
+    -fx-background-color: lightgrey;
+}
+
+.date-picker .arrow-button:hover .arrow {
+    -fx-background-radius: 0px;
+    -fx-background-color: lightgreymarine;
+}
+
+.date-picker .button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-pref-height: 35px;
+    -fx-pref-width: 35px;
+    -fx-text-fill: lightgrey;
+}
+
+.date-picker .button:hover {
+    -fx-border-color: transparent;
+    -fx-pref-height: 35px;
+    -fx-pref-width: 35px;
+}
+
+.date-picker .button .arrow:pressed {
+    -fx-border-color: transparent;
+    -fx-pref-height: 35px;
+    -fx-pref-width: 35px;
+}
+
+.date-picker-popup > .month-year-pane {
+    -fx-padding: 0.588883em 0.5em 0.666667em 0.5em;
+    -fx-background-color: -fx-main-back;
+    -fx-background-insets: 0 0 0 0, 0 0 1 0;
+}
+
+.date-picker .cell {
+    -fx-background-color: #1F1F1F;
+    -fx-pref-width: 20px;
+    -fx-pref-height: 25px;
+    -fx-text-fill: lightgrey;
+    -fx-border-color: lightgrey;
+}
+
+.date-picker .cell:hover {
+    -fx-text-fill: black;
+    -fx-background-color: lightgrey;
+    -fx-pref-width: 20px;
+    -fx-pref-height: 25px;
+}
+
+.date-picker .cell:focused {
+    -fx-background-color: #11659e;
+    -fx-pref-width: 20px;
+    -fx-pref-height: 25px;
+}
+
+.date-picker-popup {
+    -fx-border-color: lightgrey;
+    -fx-background-color: #1F1F1F;
+}
+
+.date-chooser {
+    -fx-background-color: #1F1F1F;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #1F1F1F;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+}
+
+.titled-pane > .title > .text
+{
+    -fx-fill: lightgrey;
+}
+
+
+.titled-pane > .title > .arrow-button .arrow {
+    -fx-background-color: lightgrey;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.25em 0.3125em 0.25em 0.3125em; /* 3 3.75 3 3.75 */
+    -fx-shape: "M 0 0 h 7 l -3.5 4 z";
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: lightgrey;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-padding: 0 3px 0 0;
+}
+
+.titled-pane {
+    -fx-text-fill: #1F1F1F;
+}
+.titled-pane > .title {
+    -fx-text-fill: lightgrey;
+    -fx-background-color: #1F1F1F;
+}
+titled-pane > .title  > .label{
+    -fx-text-fill: lightgrey;
+    -fx-font-weight: bold;
+}
+
+.titled-pane > .title:hover {
+    -fx-color: lightgrey;
+}

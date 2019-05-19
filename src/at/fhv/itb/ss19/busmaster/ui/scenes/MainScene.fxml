@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="767.0" prefWidth="1322.0" styleClass="root" stylesheets="@../css/dark.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+            <!-- <Tab text="Stationen">
+               <content>
+                  <fx:include source="StationScene.fxml" />
+               </content>
+            </Tab>
+          <Tab text="Busfahrer">
+               <content>
+                  <fx:include source="DriverScene.fxml" />
+               </content></Tab>
+            <Tab text="Busse">
+               <content>
+                  <fx:include source="BusScene.fxml" />
+               </content>
+            </Tab>
+            <Tab text="Sonderausstattung">
+               <content>
+                  <fx:include source="EquipmentScene.fxml" />
+               </content>
+            </Tab>
+            <Tab text="Kunde">
+               <content>
+                  <fx:include source="CustomerScene.fxml" />
+               </content>
+            </Tab>
+            <Tab text="Charterfahrten">
+               <content>
+                  <fx:include source="CharterScene.fxml" />
+               </content>
+            </Tab> -->
+            <Tab text="Routes">
+               <content>
+                  <fx:include source="RouteScene.fxml" />
+               </content>
+            </Tab>
+<!--             <Tab text="Linienfahrt">
+               <content>
+                  <fx:include source="RouteJourneyScene.fxml" />
+               </content>
+            </Tab> -->
+            <Tab text="Create Operations">
+                <content>
+                    <fx:include source="TourScene.fxml" />
+                </content>
+            </Tab>
+            <Tab text="Assignment Bus -&gt; RouteRides">
+            	<content>
+            	  <fx:include source="AssignBusToOperation.fxml" />
+            	 </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+<!--       <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar> -->
+   </children>
+</AnchorPane>
