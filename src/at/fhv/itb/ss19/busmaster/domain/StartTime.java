@@ -84,4 +84,8 @@ public class StartTime {
     public void setPath(Path path) {
         this.path = path;
     }
+    
+    public DayType getDaytype() {
+    	return DayType.values()[getStartTimeType()];
+    }
 }

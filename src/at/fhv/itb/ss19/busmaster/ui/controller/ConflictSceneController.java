@@ -2,7 +2,6 @@ package at.fhv.itb.ss19.busmaster.ui.controller;
 
 import java.util.List;
 
-import at.fhv.itb.ss19.busmaster.application.ActionButtonTableCell;
 import at.fhv.itb.ss19.busmaster.domain.ConflictingOperation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

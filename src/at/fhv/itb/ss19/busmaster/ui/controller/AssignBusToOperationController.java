@@ -365,7 +365,7 @@ public class AssignBusToOperationController {
 
 		return warning.showAndWait();
 	}
-	
+
 	private void operationSelectionChanged(IOperation newValue) {
 		if (newValue != null) {
 			_routeRides.clear();

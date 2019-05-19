@@ -1,27 +1,29 @@
 package at.fhv.itb.ss19.busmaster.domain.security;
 
-import at.fhv.itb.ss19.busmaster.persistence.entities.RouteEntity;
-
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+
+import at.fhv.itb.ss19.busmaster.domain.DayType;
+import at.fhv.itb.ss19.busmaster.domain.Path;
 
 public interface IRoute {
     public int getRouteId();
 
     public int getRouteNumber();
 
-    public Date getValidFrom();
+    public LocalDate getValidFrom();
 
-    public Date getValidTo();
+    public LocalDate getValidTo();
 
     public String getVariation();
 
     public List<IRouteRide> getRouteRides();
 
-    public int getOpenRidesNumber();
+    public List<? extends IRouteRide> getOpenRouteRides(List<? extends IOperation> oper, DayType daytype);
 
-    public List<IRouteRide> getFreeRouteRides();
+	public List<Path> getPaths();
 
-    public RouteEntity getCapsulatedRouteEntity();
+    public int getNumberOfRidesPerDayType(DayType dayType);
 
 }

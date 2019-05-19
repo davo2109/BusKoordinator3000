@@ -8,13 +8,18 @@ import java.util.Set;
 @Entity
 @Table(name = "route", schema = "public", catalog = "busdb")
 public class RouteEntity {
+    private int routeId;
+    private int routeNumber;
+    private Date validFrom;
+    private Date validTo;
+    private String variation;
+    private Set<PathEntity> paths;
+    private Set<RouteRideEntity> routeRides;
 
     @Id
-    @SequenceGenerator(name = "id_Sequence", sequenceName = "route_route_id_seq", allocationSize = 10)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
     @Column(name = "route_id", unique = true, nullable = false)
-    private int routeId;
-
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
+    @SequenceGenerator(name = "id_Sequence", sequenceName = "route_route_id_seq", allocationSize = 10)
     public int getRouteId() {
         return routeId;
     }
@@ -25,8 +30,6 @@ public class RouteEntity {
 
     @Basic
     @Column(name = "route_number")
-    private int routeNumber;
-
     public int getRouteNumber() {
         return routeNumber;
     }
@@ -37,7 +40,6 @@ public class RouteEntity {
 
     @Basic
     @Column(name = "valid_from")
-    private Date validFrom;
     public Date getValidFrom() {
         return validFrom;
     }
@@ -48,7 +50,6 @@ public class RouteEntity {
 
     @Basic
     @Column(name = "valid_to")
-    private Date validTo;
     public Date getValidTo() {
         return validTo;
     }
@@ -59,7 +60,6 @@ public class RouteEntity {
 
     @Basic
     @Column(name = "variation")
-    private String variation;
     public String getVariation() {
         return variation;
     }
@@ -86,7 +86,6 @@ public class RouteEntity {
     }
 
     @OneToMany(mappedBy = "route", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<PathEntity> paths;
     public Set<PathEntity> getPaths() {
         return paths;
     }
@@ -96,25 +95,11 @@ public class RouteEntity {
     }
 
     @OneToMany(mappedBy = "route")
-    private Set<RouteRideEntity> routeRides;
     public Set<RouteRideEntity> getRouteRides() {
         return routeRides;
     }
 
     public void setRouteRides(Set<RouteRideEntity> routeRides) {
         this.routeRides = routeRides;
-    }
-
-    @Override
-    public String toString() {
-        return "RouteEntity{" +
-                "routeId=" + routeId +
-                ", routeNumber=" + routeNumber +
-                ", validFrom=" + validFrom +
-                ", validTo=" + validTo +
-                ", variation='" + variation + '\'' +
-                ", paths=" + paths +
-                ", routeRides=" + routeRides +
-                '}';
     }
 }

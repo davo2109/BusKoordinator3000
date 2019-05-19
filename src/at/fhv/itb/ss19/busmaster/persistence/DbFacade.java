@@ -2,15 +2,11 @@ package at.fhv.itb.ss19.busmaster.persistence;
 
 import at.fhv.itb.ss19.busmaster.domain.Operation;
 import at.fhv.itb.ss19.busmaster.domain.Route;
-import at.fhv.itb.ss19.busmaster.domain.RouteRide;
-import at.fhv.itb.ss19.busmaster.domain.security.IOperation;
-import at.fhv.itb.ss19.busmaster.domain.security.IRoute;
 import at.fhv.itb.ss19.busmaster.persistence.dao.BusDao;
 import at.fhv.itb.ss19.busmaster.persistence.dao.OperationDao;
 import at.fhv.itb.ss19.busmaster.persistence.dao.PathDao;
 import at.fhv.itb.ss19.busmaster.persistence.dao.PathStationDao;
 import at.fhv.itb.ss19.busmaster.persistence.dao.RouteDao;
-import at.fhv.itb.ss19.busmaster.persistence.dao.RouteRideDao;
 import at.fhv.itb.ss19.busmaster.persistence.dao.StationDao;
 import at.fhv.itb.ss19.busmaster.persistence.dao.SuspendedDao;
 import at.fhv.itb.ss19.busmaster.persistence.entities.*;
@@ -23,8 +19,8 @@ import org.hibernate.cfg.Configuration;
 import java.io.File;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DbFacade {
@@ -37,7 +33,7 @@ public class DbFacade {
 
 	private BusDao _busDao;
 	private OperationDao _operationDao;
-	private RouteRideDao _routeRideDao;
+	//private RouteRideDao _routeRideDao;
 	private PathStationDao _pathStationDao;
 	private SuspendedDao _suspendedDao;
 	private RouteDao _routeDao;
@@ -83,17 +79,13 @@ public class DbFacade {
 
 		_busDao = new BusDao();
 		_operationDao = new OperationDao();
-		_routeRideDao = new RouteRideDao();
+		//_routeRideDao = new RouteRideDao();
 		_pathStationDao = new PathStationDao();
 		_suspendedDao = new SuspendedDao();
 		_routeDao = new RouteDao();
 		_stationDao = new StationDao();
 		_pathDao = new PathDao();
 	}
-
-	public void closeSessionFactory(){
-	    _factory.close();
-    }
 
 	public List<BusEntity> getAllBusses() {
 		Session activeSession = _factory.openSession();
@@ -116,9 +108,9 @@ public class DbFacade {
 		return operations;
 	}
 
-	public List<IOperation> getOperationsByDate(Date date) {
+	public List<Operation> getOperationsByDate(Date date) {
 		Session activeSession = _factory.openSession();
-		List<IOperation> operations =
+		List<Operation> operations = 
 				_operationDao.getOperationsByDate(activeSession, date)
 					.stream()
 						.map(oper -> new Operation(oper))
@@ -127,9 +119,9 @@ public class DbFacade {
 		return operations;
 	}
 
-	public List<IOperation> getOperationsByMonth(int month) {
+	public List<Operation> getOperationsByMonth(int month) {
 		Session activeSession = _factory.openSession();
-		List<IOperation> operations =
+		List<Operation> operations = 
 				_operationDao.getOperationsByMonth(activeSession, month)
 					.stream()
 					.map(oper -> new Operation(oper))
@@ -144,13 +136,6 @@ public class DbFacade {
 		activeSession.close();
 		return operation;
 	}
-
-    public RouteEntity getRouteById(int id) {
-        Session activeSession = _factory.openSession();
-        RouteEntity route = _routeDao.getRouteById(activeSession, id);
-        activeSession.close();
-        return route;
-    }
 	
 	public List<Operation> getOperationsByBus(BusEntity selectedBus) {
 		Session activeSession = _factory.openSession();
@@ -169,16 +154,51 @@ public class DbFacade {
 		activeSession.close();
 		return stations;
 	}
+	
+	public void saveOperation(Operation oper) {
+		List<Operation> operations = new LinkedList<>();
+		operations.add(oper);
+		saveOperations(operations);
+	}
 
-	public void saveOperations(List<IOperation> operations) {
+	public void saveOperations(List<Operation> operations) {
 		Session activeSession = null;
 		Transaction tx = null;
 
 		try {
 			activeSession = _factory.openSession();
 			tx = activeSession.beginTransaction();
-			for(IOperation oper : operations) {
+			for(Operation oper : operations) {
 				_operationDao.persistOperation(activeSession, oper.getCapsuledEntity());
+			}
+			tx.commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			if (tx != null) {
+				tx.rollback();
+			}
+		} finally {
+			if (activeSession != null) {
+				activeSession.close();
+			}
+		}
+	}
+	
+	public void deleteOperation(Operation oper) {
+		List<Operation> operations = new LinkedList<>();
+		operations.add(oper);
+		deleteOperations(operations);
+	}
+	
+	public void deleteOperations(List<Operation> deleteOperations) {
+		Session activeSession = null;
+		Transaction tx = null;
+
+		try {
+			activeSession = _factory.openSession();
+			tx = activeSession.beginTransaction();
+			for(Operation oper : deleteOperations) {
+				_operationDao.deleteOperation(activeSession, oper.getCapsuledEntity());
 			}
 			tx.commit();
 		} catch (Exception ex) {
@@ -211,6 +231,7 @@ public class DbFacade {
 		Session activeSession = null;
 		Transaction tx = null;
 		boolean noConflict = false;
+		String message = "";
 		try {
 			activeSession = _factory.openSession();
 			tx = activeSession.beginTransaction();
@@ -252,44 +273,28 @@ public class DbFacade {
 				activeSession.close();
 			}
 			if (noConflict) {
-				return "Saved!";
+				message = "Saved!";
 			} else {
-				return "Conflict!";
+				message = "Conflict!";
 			}
 		}
+		
+		return message;
 	}
 
-	public List<RouteEntity> getValidRoutesByMonth(int month) {
+	public List<Route> getValidRoutesByMonth(int month) {
 		Session activeSession = _factory.openSession();
 		List<RouteEntity> routes = _routeDao.getValidRoutesByMonth(activeSession, month);
 		activeSession.close();
-		return routes;
+		return routes.stream().map(Route::new).collect(Collectors.toList());
 	}
 
-	public List<RouteEntity> getValidRoutesByDay(Date date) {
+	public List<Route> getValidRoutesByDay(LocalDate date) {
 		Session activeSession = _factory.openSession();
-		List<RouteEntity> routes = _routeDao.getValidRoutesByDay(activeSession, date);
+		List<RouteEntity> routes = _routeDao.getValidRoutesByDay(activeSession, Date.valueOf(date));
 		activeSession.close();
-		return routes;
+		return routes.stream().map(Route::new).collect(Collectors.toList());
 	}
-
-	public List<RouteRide> getRouteRidesByRoute(IRoute route){
-        Session activeSession = _factory.openSession();
-        List<RouteRide> routeRides =
-                _routeRideDao.getAllRouteRidesByRoute(activeSession, route.getCapsulatedRouteEntity())
-                        .stream()
-                        .map(RouteRide::new)
-                        .collect(Collectors.toList());
-        activeSession.close();
-        return routeRides;
-    }
-
-    public RouteRide getRouteRideById(int id){
-        Session activeSession = _factory.openSession();
-        RouteRide routeRide = new RouteRide(_routeRideDao.getRouteRideById(activeSession, id));
-        activeSession.close();
-        return routeRide;
-    }
 
 	public String editRoute(RouteEntity route, Date startDate, Date endDate) {
 		Session activeSession = null;
@@ -509,27 +514,4 @@ public class DbFacade {
 			}
 		}
 	}
-
-    public void saveRouteRides(Set<RouteRide> routeRides) {
-        Session activeSession = null;
-        Transaction tx = null;
-
-        try {
-            activeSession = _factory.openSession();
-            tx = activeSession.beginTransaction();
-            for(RouteRide routeRide : routeRides) {
-                _routeRideDao.persistRouteRide(activeSession, routeRide.getCapsulatedRouteRideEntity());
-            }
-            tx.commit();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            if (tx != null) {
-                tx.rollback();
-            }
-        } finally {
-            if (activeSession != null) {
-                activeSession.close();
-            }
-        }
-    }
 }

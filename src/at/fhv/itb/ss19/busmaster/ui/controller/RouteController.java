@@ -1,9 +1,6 @@
 package at.fhv.itb.ss19.busmaster.ui.controller;
 
 import at.fhv.itb.ss19.busmaster.application.CreateRoute;
-import at.fhv.itb.ss19.busmaster.application.ActionButtonTableCell;
-import at.fhv.itb.ss19.busmaster.application.CreateRouteRides;
-import at.fhv.itb.ss19.busmaster.domain.RouteRide;
 import at.fhv.itb.ss19.busmaster.persistence.entities.PathEntity;
 import at.fhv.itb.ss19.busmaster.persistence.entities.PathStationEntity;
 import at.fhv.itb.ss19.busmaster.persistence.entities.RouteEntity;
@@ -29,21 +26,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RouteController {
-    
-    @FXML
-    public TableView routeRideList;
-    public ComboBox comboBoxPath;
-    public CheckBox checkBoxSingleRide;
-    public TextField startTimeHour;
-    public TextField startTimeMinute;
-    public TextField endTimeHour;
-    public TextField endTimeMinute;
-    public TextField takt;
-    public ComboBox comboBoxDayType;
-    public TextField capacity;
-    public Button buttonCreate;
-    public Button buttonSave;
-    @FXML
+	@FXML
 	private TableView<RouteEntity> routeList = new TableView<>();
 	@FXML
 	private Button routeAdd = new Button();
@@ -109,7 +92,6 @@ public class RouteController {
 	private ObservableList<StationEntity> _sortedStations = FXCollections.observableArrayList();
 	private ObservableList<PathStationEntity> _pathStations = FXCollections.observableArrayList();
 	private ObservableList<PathStationEntity> _retourpathStations = FXCollections.observableArrayList();
-	private ObservableList<RouteRide> _routeRides = FXCollections.observableArrayList();
 
 	private ConcurrentHashMap<PathEntity, List<PathStationEntity>> _unDoPathStationMap = new ConcurrentHashMap<>();
 	private ConcurrentHashMap<PathEntity, List<PathStationEntity>> _unDoRetourPathStationMap = new ConcurrentHashMap<>();
@@ -124,14 +106,12 @@ public class RouteController {
 	private void initialize() {
 		// DbFacade facade = DbFacade.getInstance();
 		CreateRoute _logic = new CreateRoute();
-        CreateRouteRides createRouteRides = new CreateRouteRides();
 		routeList.setItems(_routes);
 		stationList.setItems(_stations);
 		pathTableView.setItems(_pathStations);
 		retourpathTableView.setItems(_retourpathStations);
 		pathTableView.setEditable(true);
 		retourpathTableView.setEditable(true);
-		routeRideList.setItems(_routeRides);
 
 		path = null;
 		retourPath = null;
@@ -142,19 +122,13 @@ public class RouteController {
 		TableColumn<RouteEntity, String> validFromCol = new TableColumn<RouteEntity, String>("valid from");
 		TableColumn<RouteEntity, String> validToCol = new TableColumn<RouteEntity, String>("valid to");
 
-		TableColumn<RouteRide, String>  pathCol = new TableColumn<>("Path");
-        TableColumn<RouteRide, String>  startTimeCol = new TableColumn<>("Start Time");
-        TableColumn<RouteRide, String>  endTimeCol = new TableColumn<>("End Time");
-        TableColumn<RouteRide, String>  dayTypeCol = new TableColumn<>("Day Type");
-        TableColumn<RouteRide, String>  capacityCol = new TableColumn<>("Capacity");
-
 		TableColumn<StationEntity, String> stationNameCol = new TableColumn<>("Name");
 		TableColumn<StationEntity, String> stationShortNameCol = new TableColumn<>("Contraction");
 
-		TableColumn<PathStationEntity, String> pathStationPreviousDistanceCol = new TableColumn<>(
+		TableColumn<PathStationEntity, String> pathStationPreviousDistanceCol = new TableColumn<PathStationEntity, String>(
 				"Previous Distance");
-		TableColumn<PathStationEntity, String> pathStationNameCol = new TableColumn<>("Name");
-		TableColumn<PathStationEntity, String> pathStationPreviousTimeCol = new TableColumn<>(
+		TableColumn<PathStationEntity, String> pathStationNameCol = new TableColumn<PathStationEntity, String>("Name");
+		TableColumn<PathStationEntity, String> pathStationPreviousTimeCol = new TableColumn<PathStationEntity, String>(
 				"Previous Time");
 		TableColumn<PathStationEntity, Button> pathStationRemove = new TableColumn<>();
 
@@ -173,12 +147,6 @@ public class RouteController {
 
 		stationNameCol.setCellValueFactory(new PropertyValueFactory<StationEntity, String>("stationName"));
 		stationShortNameCol.setCellValueFactory(new PropertyValueFactory<StationEntity, String>("shortName"));
-
-		pathCol.setCellValueFactory(new PropertyValueFactory<>("_path"));
-        startTimeCol.setCellValueFactory(new PropertyValueFactory<>("_startingTime"));
-        endTimeCol.setCellValueFactory(new PropertyValueFactory<>("_endingTime"));
-        dayTypeCol.setCellValueFactory(new PropertyValueFactory<>("dayType"));
-        capacityCol.setCellValueFactory(new PropertyValueFactory<>("capacity"));
 
 		pathStationPreviousDistanceCol.setCellValueFactory(
 				cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getDistanceFromPrevious())));

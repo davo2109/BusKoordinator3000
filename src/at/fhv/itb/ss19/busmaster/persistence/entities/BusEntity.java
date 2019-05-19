@@ -2,7 +2,6 @@ package at.fhv.itb.ss19.busmaster.persistence.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -149,10 +148,4 @@ public class BusEntity {
     public void setOperations(Set<OperationEntity> operations) {
     	this.operations = operations;
     }
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<NonRemovableExtraEntity> extras = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<RemovableExtraEntity> compatibleExtras = new HashSet<>();
 }

@@ -40,12 +40,18 @@ public class OperationDao {
 	}
 
 	public void persistOperation(Session activeSession, OperationEntity operation) {
-		activeSession.save(operation);
+		//activeSession.update(operation);
+		activeSession.saveOrUpdate(operation);
 	}
 
 	public List<OperationEntity> getOperationByBus(Session activeSession, BusEntity selectedBus) {
 		Query<OperationEntity> query = activeSession.createQuery("FROM OperationEntity o WHERE o.bus = :bus", OperationEntity.class);
 		query.setParameter("bus", selectedBus);
 		return query.list();
+	}
+
+	public void deleteOperation(Session activeSession, OperationEntity capsuledEntity) {
+		Object findOperationEntityInSession = activeSession.merge(capsuledEntity);
+		activeSession.delete(findOperationEntityInSession);
 	}
 }

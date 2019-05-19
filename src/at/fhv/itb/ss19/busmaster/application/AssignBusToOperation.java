@@ -13,6 +13,7 @@ import at.fhv.itb.ss19.busmaster.domain.Available;
 import at.fhv.itb.ss19.busmaster.domain.ChangeStatus;
 import at.fhv.itb.ss19.busmaster.domain.ConflictingOperation;
 import at.fhv.itb.ss19.busmaster.domain.Operation;
+import at.fhv.itb.ss19.busmaster.domain.security.IBus;
 import at.fhv.itb.ss19.busmaster.domain.security.IOperation;
 import at.fhv.itb.ss19.busmaster.persistence.DbFacade;
 import at.fhv.itb.ss19.busmaster.persistence.entities.BusEntity;
@@ -21,7 +22,7 @@ import at.fhv.itb.ss19.busmaster.persistence.entities.SuspendedEntity;
 public class AssignBusToOperation {
 
 	private DbFacade _fac;
-	private List<IOperation> _operations;
+	private List<Operation> _operations;
 	private Map<Long, IOperation> _groupedOperations;
 	private boolean _assignmentChanged;
 	private List<ConflictingOperation> _conflicts;
@@ -51,12 +52,20 @@ public class AssignBusToOperation {
 		return _operations;
 	}
 
+	/**
+	 * Operationen werden mittels der Checksum gruppiert um alle Operations welche
+	 * die selben RouteRides besitzen auszugeben und den Bus über den Monat zu
+	 * setzen
+	 * 
+	 * @param month	Für welchen Monat gruppiert werden soll
+	 * @return	List mit den gruppierten Operationen
+	 */
 	public List<IOperation> getGroupedOperationsOfMonth(int month) {
 		_operations = _fac.getOperationsByMonth(month);
 		_groupedOperations = new HashMap<>();
 
-		for (IOperation oper : _operations) {
-			_groupedOperations.put(oper.getRideCheckSum(), oper);
+		for (Operation oper : _operations) {
+			_groupedOperations.put(oper.getCheckSum(), oper);
 		}
 
 		if (!_groupedOperations.isEmpty()) {
@@ -66,8 +75,8 @@ public class AssignBusToOperation {
 		}
 	}
 
-	public BusEntity getAssignedBus(IOperation selectedItem) {
-		return selectedItem.getBus();
+	public IBus getAssignedBus(IOperation selectedItem) {
+		return (IBus) selectedItem.getBus();
 	}
 
 	public List<BusEntity> getAssignedBusesInOperations() {
@@ -115,7 +124,7 @@ public class AssignBusToOperation {
 			} else {
 				boolean noConflict = true;
 				for (IOperation oper : _operations) {
-					if (oper.getRideCheckSum() == selectedOperation.getRideCheckSum()) {
+					if (oper.getCheckSum() == selectedOperation.getCheckSum()) {
 						boolean noConflictSingle = assignBusToSingleOperation(selectedBus, (Operation) oper,
 								alreadyAssigned);
 
@@ -136,16 +145,15 @@ public class AssignBusToOperation {
 			HashMap<LocalDate, Available> alreadyAssigned) {
 		selectedOperation.setBus(selectedBus);
 		((Operation) _operations.get(_operations.indexOf(selectedOperation))).setStatus(ChangeStatus.CHANGED);
-		//selectedOperation.setStatus(ChangeStatus.CHANGED);
-		for (IOperation oper : _operations) {
+		for (Operation oper : _operations) {
 			if (oper.getOperationId() == selectedOperation.getOperationId()) {
 				if (!alreadyAssigned.containsKey(oper.getDate())) {
 					oper.setBus(selectedBus);
 					return true;
 				}
 
-				_conflicts.add(new ConflictingOperation(selectedOperation,
-						(Available) alreadyAssigned.get(oper.getDate())));
+				_conflicts.add(
+						new ConflictingOperation(selectedOperation, (Available) alreadyAssigned.get(oper.getDate())));
 			}
 		}
 		return false;
@@ -159,13 +167,13 @@ public class AssignBusToOperation {
 		_fac.saveOperations(_operations);
 		_conflicts.clear();
 		_assignmentChanged = false;
-		_operations.forEach(oper -> oper.setStatus(ChangeStatus.OK));
+		_operations.forEach(oper -> ((Operation) oper).setStatus(ChangeStatus.OK));
 	}
 
 	public void cancelAssignments() {
 		_assignmentChanged = false;
 		_conflicts.clear();
-		_operations.forEach(oper -> oper.setStatus(ChangeStatus.OK));
+		_operations.forEach(oper -> ((Operation) oper).setStatus(ChangeStatus.OK));
 	}
 
 	public boolean isAssignmentChanged() {

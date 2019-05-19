@@ -1,60 +1,35 @@
 package at.fhv.itb.ss19.busmaster.domain;
 
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import at.fhv.itb.ss19.busmaster.domain.security.IOperation;
 import at.fhv.itb.ss19.busmaster.persistence.entities.BusEntity;
 import at.fhv.itb.ss19.busmaster.persistence.entities.OperationEntity;
 import at.fhv.itb.ss19.busmaster.persistence.entities.RouteRideEntity;
 
-public class Operation implements IOperation, Available{
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Operation implements IOperation, Available {
 	private OperationEntity _operationEntity;
-	private List<RouteRide> _routeRideList;
 	private DayType _dayType;
-	private long _rideCheckSum;
+	private long _checkSum;
+	private boolean _checksumValid;
 	private ChangeStatus _state;
-	
-	public Operation () {
+
+	public Operation() {
 		_operationEntity = new OperationEntity();
 		_dayType = DayType.WORKDAY;
-		_routeRideList = new LinkedList<>();
+		_checksumValid = true;
 	}
 
 	public Operation(OperationEntity operationEntity) {
 		_operationEntity = operationEntity;
-
-		/*List<RouteRideEntity> routeRides = _operationEntity.getRouteRides().stream().collect(Collectors.toList());
-
-		if (!routeRides.isEmpty()) {
-			RouteRideEntity ride = routeRides.get(0);
-			if (ride != null) {
-				_dayType = DayType.values()[ride.getStartTime().getStartTimeType()];
-			}
-		}
-
+		_dayType = DayType.getDayTypeOfDate(getDate());
 		_state = ChangeStatus.OK;
-
-		for(RouteRideEntity routeRideEntity : routeRides){
-		    _routeRideList.add(new RouteRide(routeRideEntity));
-        }*/
 	}
 
-    public List<RouteRide> get_routeRideList() {
-        return _routeRideList;
-    }
-
-    public void set_routeRideList(List<RouteRide> routeRideList) {
-        _routeRideList = routeRideList;
-        Set<RouteRideEntity> routeRideEntitySet = new HashSet<>();
-        for(RouteRide routeRide : routeRideList){
-            routeRideEntitySet.add(routeRide.getCapsulatedRouteRideEntity());
-        }
-        _operationEntity.setRouteRides(routeRideEntitySet);
-    }
-
-    public OperationEntity getCapsuledEntity() {
+	public OperationEntity getCapsuledEntity() {
 		return _operationEntity;
 	}
 
@@ -66,6 +41,10 @@ public class Operation implements IOperation, Available{
 		return _dayType;
 	}
 
+	public void setDayType(DayType dayType) {
+		_dayType = dayType;
+	}
+
 	public String getName() {
 		return "Tour " + getOperationId();
 	}
@@ -74,18 +53,31 @@ public class Operation implements IOperation, Available{
 		return _operationEntity.getRouteRides().stream().map(RouteRide::new).collect(Collectors.toList());
 	}
 
-	public long getRideCheckSum() {
-		if (_rideCheckSum == 0) {
-			for (RouteRideEntity ride : _operationEntity.getRouteRides()) {
-				_rideCheckSum += ride.getStartTime().hashCode();
+	public long getCheckSum() {
+		if (_checkSum == 0 || !_checksumValid) {
+
+            if (_dayType != null) {
+				_checkSum += _dayType.hashCode();
 			}
+			for (RouteRideEntity ride : _operationEntity.getRouteRides()) {
+				_checkSum += ride.getStartTime().hashCode();
+			}
+			_checksumValid = true;
 		}
 
-		return _rideCheckSum;
+		return _checkSum;
+	}
+
+	public void invalidateChecksum() {
+		_checksumValid = false;
 	}
 
 	public LocalDate getDate() {
 		return _operationEntity.getDate().toLocalDate();
+	}
+
+	public void setDate(LocalDate date) {
+		_operationEntity.setDate(Date.valueOf(date));
 	}
 
 	public void setBus(BusEntity bus) {
@@ -106,5 +98,11 @@ public class Operation implements IOperation, Available{
 
 	public void setStatus(ChangeStatus state) {
 		_state = state;
+	}
+
+	@Override
+	public String toString() {
+		return "Operation [_operationId=" + getOperationId() + ", _dayType=" + _dayType + ", _checkSum=" + _checkSum
+				+ "]";
 	}
 }

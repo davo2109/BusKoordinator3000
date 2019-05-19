@@ -1,11 +1,9 @@
 package at.fhv.itb.ss19.busmaster.persistence.dao;
 
-import at.fhv.itb.ss19.busmaster.persistence.entities.BusEntity;
 import at.fhv.itb.ss19.busmaster.persistence.entities.RouteEntity;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import javax.persistence.NoResultException;
 import java.sql.Date;
 import java.util.List;
 
@@ -32,15 +30,5 @@ public class RouteDao {
         Query<RouteEntity> query = activeSession.createQuery("FROM RouteEntity R WHERE R.validFrom <= :date AND R.validTo >= :date", RouteEntity.class);
         query.setParameter("date", date);
         return query.list();
-    }
-
-    public RouteEntity getRouteById(Session activeSession, int id){
-        Query<RouteEntity> query = activeSession.createQuery("FROM RouteEntity b WHERE b.id = :id");
-        query.setParameter("id", id);
-        try {
-            return query.getSingleResult();
-        } catch (NoResultException n){
-            return null;
-        }
     }
 }

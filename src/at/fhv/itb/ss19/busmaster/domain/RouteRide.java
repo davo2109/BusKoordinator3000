@@ -10,22 +10,19 @@ import java.util.stream.Collectors;
 
 public class RouteRide implements IRouteRide {
     private RouteRideEntity _routeRideEntity;
-    private Path _path;
+    
     private StartTime _startTime;
     private Station _startStation;
     private Station _endStation;
     private LocalTime _startingTime;
     private LocalTime _endingTime;
-    private Integer _dayType;
-    private int _capacity;
 
     public RouteRide(RouteRideEntity routeRideEntity) {
         _routeRideEntity = routeRideEntity;
     }
-
-
-    public RouteRideEntity getCapsulatedRouteRideEntity(){
-        return _routeRideEntity;
+    
+    public RouteRideEntity getCapsuledEntity() {
+    	return _routeRideEntity;
     }
 
     @Override
@@ -44,10 +41,6 @@ public class RouteRide implements IRouteRide {
     @Override
     public IRoute getRoute() {
         return new Route(_routeRideEntity.getRoute());
-    }
-
-    public Path get_path() {
-        return _path;
     }
 
     @Override
@@ -89,20 +82,9 @@ public class RouteRide implements IRouteRide {
     	
     	return _endStation == null ? "" : _endStation.getStationName();
     }
-
-    public Integer get_dayType() {
-        if(_dayType == null) {
-            setNeededAttributes();
-        }
-        return _dayType;
-    }
-
-    public int get_capacity() {
-        return _capacity;
-    }
-
+    
     private void setNeededAttributes() {
-    	for(PathStation station : this.getStartTime().getPath().getPathStations()) {
+    	for(PathStation station : getStartTime().getPath().getPathStations()) {
 			if(station.getPositionOnPath() == 1) {
 				_startStation = station.getStation();
 			}
@@ -110,23 +92,45 @@ public class RouteRide implements IRouteRide {
 				_endStation = station.getStation();
 			}
 		}
-    	_path = new Path(_routeRideEntity.getStartTime().getPath());
+    	
+    	// wenn eine Fahrt hin und zurück geht, würde das unten eventuell funktionieren
+//    	for (Path path : getRoute().getPaths()) {
+//    	    if(!path.isRetour()){
+//                for(PathStation station : getStartTime().getPath().getPathStations()) {
+//                    if(station.getPositionOnPath() == 1) {
+//                        _startStation = station.getStation();
+//                    }
+//                    if (station.getPositionOnPath() == path.getPathStations().size()) {
+//                        _endStation = station.getStation();
+//                    }
+//                    duration += station.getTimeFromPrevious();
+//                }
+//            } else {
+//                List<PathStation> pathStations = path.getPathStations();
+//                for (PathStation station : pathStations) {
+//                    if (station.getPositionOnPath() == pathStations.size()) {
+//                        _endStation = station.getStation();
+//                    }
+//                    duration += station.getTimeFromPrevious();
+//                }
+//            }
+//        }
     	
     	_startingTime = _routeRideEntity.getStartTime().getStartTime().toLocalTime();
-    	_endingTime = _startingTime.plusMinutes(_path.get_pathTime());
-    	_dayType = _startTime.getStartTimeType();
-    	_capacity = _startTime.getRequiredCapacity();
-
+    	_endingTime = _startingTime.plusMinutes(getStartTime().getPath().getDuration());
     }
 
     @Override
-    public String toString() {
-        return "RouteRide{" +
-                " _path=" + _path +
-                ", _startingTime=" + _startingTime +
-                ", _endingTime=" + _endingTime +
-                ", _dayType=" + _dayType +
-                ", _capacity=" + _capacity +
-                '}';
+    public boolean equals(Object obj) {
+    	if(obj instanceof RouteRide) {
+    		RouteRide ride = (RouteRide)obj;
+    		return _routeRideEntity.equals(ride.getCapsuledEntity());
+    	}
+    	return false;
+    }
+    
+    @Override
+    public int hashCode() {
+    	return _routeRideEntity.hashCode();
     }
 }

@@ -8,12 +8,15 @@ import java.util.Set;
 @Entity
 @Table(name = "start_time", schema = "public", catalog = "busdb")
 public class StartTimeEntity {
+    private int startTimeId;
+    private int requiredCapacity;
+    private Time startTime;
+    private Integer startTimeType;
+    private Set<RouteRideEntity> routeRides;
+    private PathEntity path;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "start_time_id")
-    private int startTimeId;
-
     public int getStartTimeId() {
         return startTimeId;
     }
@@ -24,7 +27,6 @@ public class StartTimeEntity {
 
     @Basic
     @Column(name = "required_capacity")
-    private int requiredCapacity;
     public int getRequiredCapacity() {
         return requiredCapacity;
     }
@@ -35,8 +37,6 @@ public class StartTimeEntity {
 
     @Basic
     @Column(name = "start_time")
-    private Time startTime;
-
     public Time getStartTime() {
         return startTime;
     }
@@ -47,7 +47,6 @@ public class StartTimeEntity {
 
     @Basic
     @Column(name = "start_time_type")
-    private Integer startTimeType;
     public Integer getStartTimeType() {
         return startTimeType;
     }
@@ -72,8 +71,7 @@ public class StartTimeEntity {
         return Objects.hash(startTimeId, requiredCapacity, startTime, startTimeType);
     }
 
-    @OneToMany(mappedBy = "startTime", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<RouteRideEntity> routeRides;
+    @OneToMany(mappedBy = "startTime")
     public Set<RouteRideEntity> getRouteRides() {
         return routeRides;
     }
@@ -84,24 +82,11 @@ public class StartTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "path_id", referencedColumnName = "path_id", nullable = false)
-    private PathEntity path;
     public PathEntity getPath() {
         return path;
     }
 
     public void setPath(PathEntity path) {
         this.path = path;
-    }
-
-    @Override
-    public String toString() {
-        return "StartTimeEntity{" +
-                "startTimeId=" + startTimeId +
-                ", requiredCapacity=" + requiredCapacity +
-                ", startTime=" + startTime +
-                ", startTimeType=" + startTimeType +
-                ", routeRides=" + routeRides +
-                ", path=" + path +
-                '}';
     }
 }

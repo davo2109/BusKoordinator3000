@@ -1,6 +1,6 @@
 package at.fhv.itb.ss19.busmaster.domain.security;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 import at.fhv.itb.ss19.busmaster.domain.Operation;
@@ -19,7 +19,7 @@ public interface IBus {
     
     public String getNote();
 
-    public Date getRegistrationDate();
+    public LocalDate getRegistrationDate();
 
     public int getSeatPlaces();
     

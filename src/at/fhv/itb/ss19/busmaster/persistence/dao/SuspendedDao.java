@@ -13,7 +13,7 @@ public class SuspendedDao {
 
 	public List<SuspendedEntity> getEntriesByBusAndDate(Session activeSession, BusEntity bus, Date date) {
 		Query<SuspendedEntity> query = activeSession
-				.createQuery("FROM SuspendedEntity s WHERE s.bus = :bus AND :date BETWEEN s.dateFrom AND s.dateTo");
+				.createQuery("FROM SuspendedEntity s WHERE s.bus = :bus AND :date BETWEEN s.dateFrom AND s.dateTo",SuspendedEntity.class);
 		query.setParameter("bus", bus);
 		query.setParameter("date", date);
 		return query.list();

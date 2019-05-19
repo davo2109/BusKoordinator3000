@@ -8,71 +8,66 @@ import java.util.Set;
 @Entity
 @Table(name = "operation", schema = "public", catalog = "busdb")
 public class OperationEntity {
+	private int operationId;
+	private Date operationDate;
+	private Set<RouteRideEntity> routeRides;
+	private BusEntity bus;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
+	@SequenceGenerator(name = "id_Sequence", sequenceName = "operation_operation_id_seq", allocationSize = 100)
+	@Column(name = "operation_id")
+	public int getOperationId() {
+		return operationId;
+	}
 
-    @Id
-    @SequenceGenerator(name = "id_Sequence", sequenceName = "operation_operation_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
-    @Column(name = "operation_id", unique = true, nullable = false)
-    private int operationId;
+	public void setOperationId(int operationId) {
+		this.operationId = operationId;
+	}
 
-    public int getOperationId() {
-        return operationId;
-    }
+	@Basic
+	@Column(name = "operation_date")
+	public Date getDate() {
+		return operationDate;
+	}
 
-    public void setOperationId(int operationId) {
-        this.operationId = operationId;
-    }
+	public void setDate(Date date) {
+		this.operationDate = date;
+	}
 
-    @Basic
-    @Column(name = "operation_date")
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		OperationEntity that = (OperationEntity) o;
+		return operationId == that.operationId && Objects.equals(operationDate, that.operationDate);
+	}
 
-    private Date operationDate;
-    public Date getDate() {
-        return operationDate;
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(operationId, operationDate);
+	}
 
-    public void setDate(Date date) {
-        this.operationDate = date;
-    }
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "operation_ride", joinColumns = { @JoinColumn(name = "operation_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "route_ride_id") })
+	public Set<RouteRideEntity> getRouteRides() {
+		return routeRides;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OperationEntity that = (OperationEntity) o;
-        return operationId == that.operationId &&
-                Objects.equals(operationDate, that.operationDate);
-    }
+	public void setRouteRides(Set<RouteRideEntity> routeRides) {
+		this.routeRides = routeRides;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(operationId, operationDate);
-    }
+	@ManyToOne
+	@JoinColumn(name = "bus_id", referencedColumnName = "bus_id")
+	public BusEntity getBus() {
+		return bus;
+	}
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "operation_ride",
-            joinColumns = { @JoinColumn(name = "operation_id") },
-            inverseJoinColumns = {@JoinColumn(name = "route_ride_id") })
-
-    private Set<RouteRideEntity> routeRides;
-    public Set<RouteRideEntity> getRouteRides() {
-        return routeRides;
-    }
-
-    public void setRouteRides(Set<RouteRideEntity> routeRides) {
-        this.routeRides= routeRides;
-    }
-    
-    @ManyToOne
-    @JoinColumn(name="bus_id", referencedColumnName="bus_id")
-
-    private BusEntity bus;
-    public BusEntity getBus() {
-    	return bus;
-    }
-    
-    public void setBus(BusEntity bus) {
-    	this.bus = bus;
-    }
+	public void setBus(BusEntity bus) {
+		this.bus = bus;
+	}
 }

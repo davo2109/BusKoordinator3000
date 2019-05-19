@@ -35,6 +35,7 @@ public class Main extends Application{
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("ui/resources/minibus_grey.png")));
 			primaryStage.setScene(scene);
 			primaryStage.setMaximized(true);
+			//primaryStage.resizableProperty().setValue(false);
 			primaryStage.show();
 			
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

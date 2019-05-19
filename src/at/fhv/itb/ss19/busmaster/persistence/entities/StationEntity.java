@@ -13,7 +13,6 @@ public class StationEntity {
     private Set<PathStationEntity> pathStations;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "station_id")
     public int getStationId() {
         return stationId;

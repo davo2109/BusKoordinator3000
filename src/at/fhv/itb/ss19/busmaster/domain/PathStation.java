@@ -4,9 +4,6 @@ import at.fhv.itb.ss19.busmaster.persistence.entities.PathStationEntity;
 
 public class PathStation {
 	private PathStationEntity _pathStation;
-	private int positionOnPath;
-    private int distanceFromPrevious;
-    private int timeFromPrevious;
     private Station station;
     private Path path;
     
@@ -19,44 +16,31 @@ public class PathStation {
 	}
    
    public int getPositionOnPath() {
-	   if(positionOnPath == 0) {
-		   positionOnPath = _pathStation.getPositionOnPath();
-	   }
-       return positionOnPath;
+       return _pathStation.getPositionOnPath();
    }
 
    public void setPositionOnPath(int positionOnPath) {
-       this.positionOnPath = positionOnPath;
+       _pathStation.setPositionOnPath(positionOnPath);
    }
 
-   public int getDistanceFromPrevious() {
-	   if(distanceFromPrevious == 0) {
-		   distanceFromPrevious = _pathStation.getDistanceFromPrevious();
-	   }
-	   
-       return distanceFromPrevious;
+   public int getDistanceFromPrevious() {   
+       return _pathStation.getDistanceFromPrevious();
    }
 
    public void setDistanceFromPrevious(int distanceFromPrevious) {
-       this.distanceFromPrevious = distanceFromPrevious;
+       _pathStation.setDistanceFromPrevious(distanceFromPrevious);
    }
 
    public int getTimeFromPrevious() {
-	   if(timeFromPrevious == 0) {
-		   timeFromPrevious = _pathStation.getTimeFromPrevious();
-	   }
-       return timeFromPrevious;
+       return _pathStation.getTimeFromPrevious();
    }
 
    public void setTimeFromPrevious(int timeFromPrevious) {
-       this.timeFromPrevious = timeFromPrevious;
+	   _pathStation.setTimeFromPrevious(timeFromPrevious);
    }
 
    public Station getStation() {
-	   if(station == null) {
-		   station = new Station(_pathStation.getStation());
-	   }
-       return station;
+       return new Station(_pathStation.getStation());
    }
 
    public void setStation(Station station) {
@@ -64,10 +48,7 @@ public class PathStation {
    }
 
    public Path getPath() {
-	   if(path == null) {
-		   path = new Path(_pathStation.getPath());
-	   }
-       return path;
+       return new Path(_pathStation.getPath());
    }
 
    public void setPath(Path path) {
